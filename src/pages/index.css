@@ -5,3 +5,158 @@
   font-family: "Poppins", sans-serif;
   margin: 0;
 }
+
+.head {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.head h3 {
+    /* font-size: 35px;
+    font-weight: 500;
+    letter-spacing: 1px; */
+    color:#ff8300;
+    font-size: 48px;
+    text-align: center;
+    font-family: Arial;
+    font-weight: bolder;
+    letter-spacing: 25px;
+}
+  
+.head p {
+    color: #AB0416;
+    padding: 0 30px 50px 15px;
+    margin-top: 1px;
+    text-align: center;
+    font-family: Arial;
+    font-weight: bold;
+    word-spacing: 14px;
+}
+  
+.create-btn {
+    margin-top: -15px;
+    text-align: center;
+}
+
+.create-btn button {
+    height: 35px;
+    width: 400px;
+    border: 2px solid;
+    background-color: transparent;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.create-btn button:hover {
+    background-color: black !important;
+    color: white;
+}
+  
+.input-main {
+    display: flex;
+    justify-content: center;
+}
+
+.data-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.data-div {
+    margin-top: 20px;
+    width: 400px;  
+}
+
+.data-div div {
+    height: auto;
+    background-color: #eeeeee;
+    margin-bottom: 10px;
+}
+
+.data-div p {
+    margin-top: 12px;
+    margin-left: 5px;
+    padding: 7px;
+    font-family: "Merriweather", sans-serif;
+}
+
+.data-div button {
+    height: 25px;
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;  
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    width: 80px;  
+}
+  
+.data-div button:hover {
+    background-color: black;
+    color: #fff;   
+}
+  
+.makeStyles-paper-1 {
+    width: auto !important;
+    border: none !important;
+    height: auto !important;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-form {
+    margin-top: 10px;
+}
+
+.btn-form button {
+    cursor: pointer;
+    height: 30px;
+    width: auto;
+    text-transform: uppercase;
+    border: 1px solid;
+    background: transparent;
+    margin-left: 10px;
+    font-weight: 600;
+    width: 100px;
+}
+
+.btn-form button:hover {
+    background-color: black !important;
+    color: white;
+}
+
+.loader {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.no-task {
+    text-align: center;
+    margin-top: 20px;
+}
+  
+.MuiFormControl-root  {
+    width: 370px !important;
+}
+   
+@media (max-width: 440px) {
+    .create-btn button {
+        width: 300px;
+    }
+
+    .data-div {
+        width: 300px;
+    }
+}
