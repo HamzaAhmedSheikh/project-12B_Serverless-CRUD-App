@@ -15,7 +15,14 @@
   },
   "license": "0BSD",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/styles": "^4.10.0",
+    "dotenv": "^8.2.0",
+    "faunadb": "^4.0.0",
+    "formik": "^2.2.5",
     "gatsby": "^2.26.1",
+    "gatsby-plugin-material-ui": "^2.1.10",
+    "mdi-material-ui": "^6.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
