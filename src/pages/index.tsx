@@ -3,6 +3,7 @@ import { Form, Formik, Field } from "formik";
 import { TextField, Modal, AppBar, Toolbar, Typography } from "@material-ui/core"
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import "./index.css";
 
  function randomId() {
   return Math.round(Math.random() * 20) - 10;
@@ -50,6 +51,7 @@ export default function Home() {
   const [fetchData, setFetchData] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [modalStyle] = useState(getModalStyle);
 
   interface Data {
     ref: object;
@@ -70,7 +72,7 @@ export default function Home() {
   };
 
   // updated modal functions
-  
+
   const handleOpenUpdated = () => {
     setOpenUpdate(true);
   };
@@ -78,6 +80,56 @@ export default function Home() {
   const handleCloseUpdated = () => {
     setOpenUpdate(false);
   };
+
+  // create message
+
+  const bodyCreate = (
+    <div style={modalStyle} className={classes.paper}>
+      <Formik onSubmit={(value, actions) => {
+        fetch("/.netlify/functions/create", {
+          method: "post",
+          body: JSON.stringify(value),
+        });
+        setFetchData(true);
+          actions.resetForm({
+            values: {
+              message: "",
+            },
+          });
+          setFetchData(false);
+          handleCloseCreate();
+        }}
+        initialValues={{
+          message: "",
+        }}
+      >
+        {(formik) => (
+          <Form onSubmit={formik.handleSubmit}>
+            <Field
+              as={TextField}
+              variant="outlined"
+              rowsMax={4}
+              multiline
+              type="text"
+              name="message"
+              label="Message"
+              id="message"
+              required
+            />
+
+            <div className="btn-form">
+              <button type="submit">add</button>
+              <button type="button" onClick={handleCloseCreate}>
+                close
+              </button>
+            </div>
+            
+                   
+          </Form>
+        )}
+      </Formik>             
+    </div>    
+  );
 
   return (
    <div className='main'>
@@ -88,6 +140,26 @@ export default function Home() {
       </Typography>          
      </Toolbar>
     </AppBar>
+      
+      <div className="head">
+        <h3> CRUD </h3> 
+        <p className="heading"> Create Read Update Delete </p>
+      </div>
+
+      <div className="create-btn">
+        <button onClick={handleOpenCreate}>Create Message</button>
+      </div>
+       
+      <div>
+        <Modal
+          open={openCreate}
+          onClose={handleCloseCreate}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          { bodyCreate }
+        </Modal>
+      </div>
    </div>    
   )  
 }
