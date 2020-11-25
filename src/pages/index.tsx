@@ -49,6 +49,7 @@ export default function Home() {
   const classes = useStyles();
   const [data, setData] = useState<null | Data[]>();
   const [fetchData, setFetchData] = useState(false);
+  const [updatingData, setUpdatingData] = useState(undefined);
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [modalStyle] = useState(getModalStyle);
@@ -81,6 +82,13 @@ export default function Home() {
     setOpenUpdate(false);
   };
 
+  // step-3 update the retrieve message
+
+   const updateMessage = (id: string) => {
+     let updateData = data.find((mes) => mes.ref["@ref"].id === id);
+     setUpdatingData(updateData);
+   }
+
   // step-2 read retrieve message
 
    useEffect(() => {
@@ -94,7 +102,7 @@ export default function Home() {
    }, [fetchData])
 
   // step-1 create message
-
+  //  body of create modal
   const bodyCreate = (
     <div style={modalStyle} className={classes.paper}>
       <Formik onSubmit={(value, actions) => {
@@ -143,6 +151,56 @@ export default function Home() {
     </div>    
   );
 
+  // body of update modal
+
+  const bodyUpdate = (
+    <div style={modalStyle} className={classes.paper}>
+      <Formik
+        onSubmit={(value, actions) => {
+          fetch("/.netlify/functions/update", {
+            method: "put",
+            body: JSON.stringify({
+              message: value.message,
+              id: updatingData.ref["@ref"].id,
+            }),
+          });
+          setFetchData(true);
+          actions.resetForm({
+            values: {
+              message: "",
+            },
+          });
+          setFetchData(false);
+          handleCloseUpdated();
+        }}
+        initialValues={{
+          message: updatingData !== undefined ? updatingData.data.message : "",
+        }}
+      >
+        {(formik) => (
+          <Form onSubmit={formik.handleSubmit} className="form">
+            <Field
+              as={TextField}
+              multiline
+              rowMax={4}
+              type="text"
+              name="message"
+              id="message"
+              className="field"
+            />
+
+            <div className="btn-form">
+              <button type="submit"> update </button>
+              <button type="button" onClick={handleCloseUpdated}>
+                close
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>      
+    </div>
+  )
+
   return (
    <div className='main'>
     <AppBar position="static" color='secondary'>
@@ -173,6 +231,17 @@ export default function Home() {
         </Modal>
       </div>
 
+      <div>
+        <Modal
+          open={openUpdate}
+          onClose={handleCloseUpdated}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        > 
+          { bodyUpdate }      
+        </Modal>     
+      </div>
+
       {data === null || data === undefined ? (
         <div className="loader">
           <CircularProgress />
@@ -183,7 +252,13 @@ export default function Home() {
             {data.map((mes, i) => (
               <div key={i}>
                 <p> {mes.data.message} </p>
-                <button> update </button>
+                <button
+                  onClick={() => {
+                    handleOpenUpdated();
+                    updateMessage(mes.ref["@ref"].id);
+                  }}
+                > update </button>
+
                 <button> delete </button>
               </div>
             ))}
