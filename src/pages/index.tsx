@@ -81,7 +81,19 @@ export default function Home() {
     setOpenUpdate(false);
   };
 
-  // create message
+  // step-2 read retrieve message
+
+   useEffect(() => {
+    (async () => {
+      await fetch("/.netlify/functions/read")
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+        });
+    })();
+   }, [fetchData])
+
+  // step-1 create message
 
   const bodyCreate = (
     <div style={modalStyle} className={classes.paper}>
@@ -160,6 +172,28 @@ export default function Home() {
           { bodyCreate }
         </Modal>
       </div>
+
+      {data === null || data === undefined ? (
+        <div className="loader">
+          <CircularProgress />
+        </div>
+      ) : data.length >= 1 ? (
+        <div className="data-display">
+          <div className="data-div">
+            {data.map((mes, i) => (
+              <div key={i}>
+                <p> {mes.data.message} </p>
+                <button> update </button>
+                <button> delete </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="no-task">
+          <h4>No Task for today</h4>
+        </div>
+      )}      
    </div>    
   )  
 }
