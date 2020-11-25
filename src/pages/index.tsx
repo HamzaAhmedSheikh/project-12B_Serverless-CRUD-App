@@ -53,6 +53,7 @@ export default function Home() {
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [modalStyle] = useState(getModalStyle);
+  const [loading, setLoading] = useState(false);
 
   interface Data {
     ref: object;
@@ -81,6 +82,17 @@ export default function Home() {
   const handleCloseUpdated = () => {
     setOpenUpdate(false);
   };
+
+  // step-4 delete the messages
+
+  const deleteMessage = async (message) => {
+    setLoading(true);
+    await fetch("/.netlify/functions/delete", {
+      method: "post",
+      body: JSON.stringify({ id: message.ref["@ref"].id }),      
+    });
+    setFetchData(true);
+  }
 
   // step-3 update the retrieve message
 
@@ -259,7 +271,11 @@ export default function Home() {
                   }}
                 > update </button>
 
-                <button> delete </button>
+                <button
+                  onClick={() => {
+                    deleteMessage(mes);
+                  }}
+                > delete </button>
               </div>
             ))}
           </div>
